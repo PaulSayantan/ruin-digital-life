@@ -186,7 +186,7 @@ class getImage(APIView):
         if ImageObj.image!="":
                 dic = {
                     "Type": "Success",
-                    "Message": "Thought obtained",
+                    "Message": "Image obtained",
                     "Data": ImageObj.image
                 }
                 return Response(data=dic, status=status.HTTP_200_OK)
