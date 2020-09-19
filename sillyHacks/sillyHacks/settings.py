@@ -82,6 +82,9 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
 
+
+CORS_ALLOWED_ORIGINS=["*"]
+
 #Twitter API
 API_KEY="FsN5HHCprXT7jcoEGzCx4cGZd"
 API_SECRET_KEY="blRVRw8aHwhxWjiorVWt7Yo2rDosSAxIdNRPjOv5t8ktncFB3A"
