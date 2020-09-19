@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 import requests
+from random import randint
 
 
 def get_token_auth_header(request):
@@ -156,9 +157,47 @@ class Login(APIView):
                     "Data": None
                 }, status=status.HTTP_400_BAD_REQUEST)
 
+@permission_classes([AllowAny])
+class getThought(APIView):
+    def get(self,request):
+        count= Thought.objects.all().count()
+        randomNum=randint(1,count)
+        thoughtObj=Thought.objects.get(id=randomNum)
+        if thoughtObj.thought!="":
+                dic = {
+                    "Type": "Success",
+                    "Message": "Thought obtained",
+                    "Data": thoughtObj.thought
+                }
+                return Response(data=dic, status=status.HTTP_200_OK)
+        else:
+            return Response(data={
+                    "Type": "Error",
+                    "Message": "Not valid request",
+                    "Data": None
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+@permission_classes([AllowAny])
+class getImage(APIView):
+    def get(self,request):
+        count= Image.objects.all().count()
+        randomNum=randint(1,count)
+        ImageObj=Image.objects.get(id=randomNum)
+        if ImageObj.image!="":
+                dic = {
+                    "Type": "Success",
+                    "Message": "Thought obtained",
+                    "Data": ImageObj.image
+                }
+                return Response(data=dic, status=status.HTTP_200_OK)
+        else:
+            return Response(data={
+                    "Type": "Error",
+                    "Message": "Not valid request",
+                    "Data": None
+                }, status=status.HTTP_400_BAD_REQUEST)              
 
 
-
-
+        
 
 
