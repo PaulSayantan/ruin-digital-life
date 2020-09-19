@@ -1,1 +1,1 @@
-web gunicorn sillyHacks.wsgi.application --log-file -
+web gunicorn sillyHacks.wsgi --log-file -
