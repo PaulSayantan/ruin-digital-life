@@ -16,8 +16,11 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 import requests
 from random import randint
+import os
+import tweepy
+from dotenv import load_dotenv
 
-
+from sillyHacks.settings import ACCESS_SECRET_TOKEN,API_SECRET_KEY, ACCESS_TOKEN ,API_KEY
 def get_token_auth_header(request):
     """Obtains the Access Token from the Authorization Header
     """
@@ -85,7 +88,8 @@ class Register(APIView):
         password=request.data.get('password')
         data={
             "email":email,
-            "password":password
+            "password":password,
+            "twitterId":twitterId
         }
         serializer=CustomUserSerializer(data=data)
         if serializer.is_valid():
@@ -196,6 +200,60 @@ class getImage(APIView):
                     "Message": "Not valid request",
                     "Data": None
                 }, status=status.HTTP_400_BAD_REQUEST)              
+
+
+@permission_classes([AllowAny])
+class Twitterbot(APIView):
+    def post(self,request):
+        # twitterId=request.data.get('twitterId')
+        load_dotenv(verbose=True)
+
+        auth = tweepy.OAuthHandler(API_KEY,API_SECRET_KEY)
+        auth.set_access_token(ACCESS_TOKEN,ACCESS_SECRET_TOKEN)
+
+
+        #api = tweepy.API(auth)
+        api = tweepy.API(auth, wait_on_rate_limit=True,
+            wait_on_rate_limit_notify=True)
+        num=0
+        allAccounts=CustomUser.objects.all()
+        print(len(allAccounts))
+        for account in allAccounts:
+            twitterId=account.twitterId
+            print("l",twitterId)
+            if twitterId!=None:
+                user = api.get_user(twitterId)
+                print("User details:")
+                print(user.id)
+                print(user.name)
+                print(user.description)
+                print(user.location)
+
+                count=Thought.objects.all().count()
+                randomNum=randint(1,count)
+                thoughtObj=Thought.objects.get(id=randomNum)
+                direct_mssg = api.send_direct_message(user.id,thoughtObj.thought)
+                num+=1
+                print(direct_mssg.message_create['message_data']['text'])
+            else:
+                continue
+        try:
+            api.verify_credentials()
+            #api.update_status("Test tweet from my twitter bot")
+            print("Authentication OK")
+            dic = {
+                    "Type": "Success",
+                    "Message": "Authentication OK",
+                    "Data": num
+                }
+            return Response(data=dic, status=status.HTTP_200_OK)
+        except:
+            print("Error during authentication")
+            return Response(data={
+                    "Type": "Error",
+                    "Message": "Error during Authentication",
+                    "Data": None
+                }, status=status.HTTP_400_BAD_REQUEST)
 
 
         

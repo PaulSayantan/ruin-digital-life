@@ -82,6 +82,15 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
 
+#Twitter API
+API_KEY="FsN5HHCprXT7jcoEGzCx4cGZd"
+API_SECRET_KEY="blRVRw8aHwhxWjiorVWt7Yo2rDosSAxIdNRPjOv5t8ktncFB3A"
+ACCESS_TOKEN="1145714034450341888-DcutDSpFsz4L1rymGgRJcjnNAxI0FR"
+ACCESS_SECRET_TOKEN="8vgFtrV2WJmS3yAEN0EBHPA6zo1Cdzl5QTTxedMEw7TE8"
+
+
+
+
 ROOT_URLCONF = 'sillyHacks.urls'
 
 TEMPLATES = [
@@ -154,3 +163,4 @@ STATIC_URL = '/static/'
 
 STATIC_URL=os.path.join(BASE_DIR,"static")
 django_heroku.settings(locals())
+

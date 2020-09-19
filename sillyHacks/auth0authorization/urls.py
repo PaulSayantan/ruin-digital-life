@@ -11,5 +11,6 @@ urlpatterns = [
     path('api/register',views.Register.as_view()),
     path('api/login',views.Login.as_view()),
     path('api/getThoughts',views.getThought.as_view()),
-    path('api/getImage',views.getImage.as_view())
+    path('api/getImage',views.getImage.as_view()),
+    path('api/TwitterBot',views.Twitterbot.as_view())
 ]
