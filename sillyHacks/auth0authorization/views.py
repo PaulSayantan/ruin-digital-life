@@ -86,6 +86,7 @@ class Register(APIView):
     def post(self,request):
         email=request.data.get('email')
         password=request.data.get('password')
+        twitterId=request.data.get('twitterId')
         data={
             "email":email,
             "password":password,
