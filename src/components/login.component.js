@@ -28,6 +28,11 @@ export default class Login extends Component {
 			.then(result => console.log(result))
 			.catch(error => console.log('error', error));
 				console.log(this.state);
+		setTimeout(() => {
+			this.setState({
+				show: true
+				});
+			}, 1000);
 		}
 
     render() {
@@ -70,10 +75,7 @@ export default class Login extends Component {
                 </div>
 
 							<button type="button" className="btn btn-primary btn-block" onClick={() => {
-								//this.submitForm();
-			this.setState({
-				show: true
-				});
+								this.submitForm();
 							}}>Submit</button>
 							{
 								this.state.show
